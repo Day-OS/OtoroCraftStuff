@@ -1,10 +1,10 @@
 const itemstack = core.type("org.bukkit.inventory.ItemStack");
 const MATERIAL = core.type("org.bukkit.Material");
 const specials = require("./itensespeciaiskk.js");
-const endframefoda = new itemstack(MATERIAL.END_PORTAL_FRAME);
-specials.convertToRare(endframefoda, "seeeeeexoooooooooooooooooo");
+const ChatColor = core.type("org.bukkit.ChatColor");
+const endframeItem = new itemstack(MATERIAL.END_PORTAL_FRAME);
+specials.convertToRare(endframeItem, [ChatColor.RESET + "" + ChatColor.GREEN + "Cria um portal instantâneamente em um espaço 3x1x3.", ChatColor.RESET + "" + ChatColor.GREEN + "Interaja com o núcleo para pega-lo."]);
 core.event("org.bukkit.event.block.BlockPlaceEvent", (evt) => {
-    //evt.getPlayer().sendMessage("a")
     const bloco = evt.getBlockPlaced();
     if (evt.getBlockPlaced().getBlockData().getMaterial().name() == "END_PORTAL_FRAME") {
         function check(nx, nz) {
@@ -47,10 +47,13 @@ core.event("org.bukkit.event.player.PlayerInteractEvent", (evt) => {
                     for (let Z = -1; Z < 2; Z++) {
                         const blocki = block.getWorld().getBlockAt(block.getLocation().getX() + X, block.getLocation().getY(), block.getLocation().getZ() + Z);
                         blocki.setType(MATERIAL.AIR);
-                        evt.getPlayer().getInventory().setItemInMainHand(endframefoda);
+                        evt.getPlayer().getInventory().setItemInMainHand(endframeItem);
                     }
                 }
             }
         }
     }
 });
+core.command({ name: "endframespawn", permission: "group.coder", execute: (s) => {
+        specials.spawnItem(endframeItem, s);
+    } });

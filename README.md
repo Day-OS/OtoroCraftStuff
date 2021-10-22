@@ -17,15 +17,16 @@ https://github.com/grakkit/grakkit
 - [x] botar o eye of ender para seguir o item dropado
 - [x] consertar destruição TNT
 - [x] tirar nicks
-- [ ] local de spawn do item
-- [ ] ender eye inquebrável
-- [ ] ""spy clock"", portal do the end portátil e cajado de adestração (última prioridade)
+- [x] local de spawn do item
+- [x] ender eye mais fácil de pegar
+- [x] portal do the end portátil
+- [ ] ""spy clock"" e cajado de adestração (última prioridade)
 
-Coisas para fazer no server:
+## Coisas para fazer no server:
 - [ ] worldborder
-- [ ] configurar perms
+- [x] configurar perms
 - [ ] forma melhor de entrada
 - [ ] chat local
 
-(impossíveis no momento)
+### (impossíveis no momento)
 - [ ] bloquear bundle

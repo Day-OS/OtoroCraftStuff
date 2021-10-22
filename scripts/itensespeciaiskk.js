@@ -1,14 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const rare = (core.type("org.bukkit.ChatColor").translateAlternateColorCodes("&", "&6&ka&r&l&fMeM&8-&r&o&7Legendários♔&6&ka"));
-const Vector = core.type('org.bukkit.util.Vector');
 const locationClass = core.type('org.bukkit.Location');
-const stdlib = require('@grakkit/stdlib-paper');
-const playerClass = core.type("org.bukkit.entity.Player");
-const itemClass = core.type("org.bukkit.inventory.ItemStack");
-const materialClass = core.type("org.bukkit.Material");
-const codify = require("@brayjamin/codify");
-core.event("org.bukkit.event.server.PluginDisableEvent", (evt) => {
+const MATERIAL = core.type("org.bukkit.Material");
+const spawnarea = { p1x: -8, p1z: -8, p2x: 24, p2z: 24 };
+core.event("org.bukkit.event.server.PluginDisableEvent", () => {
     const p = server.getOnlinePlayers();
     for (let i = 0; i < p['length']; i++) {
         const player = p[i];
@@ -19,10 +15,9 @@ core.event("org.bukkit.event.server.PluginDisableEvent", (evt) => {
                 if (checkIfRare(item))
                     player.getWorld().dropItemNaturally(player.getLocation(), item);
         }
-        console.log(p);
     }
 });
-core.event("org.bukkit.event.server.PluginEnableEvent", (evt) => {
+core.event("org.bukkit.event.server.PluginEnableEvent", () => {
     const p = server.getOnlinePlayers();
     for (let i = 0; i < p['length']; i++) {
         const player = p[i];
@@ -33,14 +28,12 @@ core.event("org.bukkit.event.server.PluginEnableEvent", (evt) => {
                 if (checkIfRare(item))
                     player.getInventory().removeItem(item);
         }
-        console.log(p);
     }
 });
 core.event("org.bukkit.event.entity.ItemDespawnEvent", (evt) => { if (checkIfRare(evt.getEntity()['getItemStack']())) {
     evt.setCancelled(true);
 } });
 core.event('org.bukkit.event.entity.EntityDamageEvent', (evt) => {
-    const position = evt.getEntity().getLocation();
     if (evt.getEntityType().name() == "DROPPED_ITEM") {
         if (checkIfRare(evt.getEntity()['getItemStack']())) {
             const world = evt.getEntity().getWorld();
@@ -77,43 +70,6 @@ core.event('org.bukkit.event.entity.ItemSpawnEvent', (evt) => {
         saveCoords(evt.getEntity().getItemStack(), evt.getEntity().getLocation());
     }
 });
-core.event('org.bukkit.event.entity.EntityDeathEvent', (evt) => {
-    //VERAQUI DEPOIS
-});
-function saveCoords(item, location) {
-    var nome = item;
-    if (!(typeof (item) == "string")) {
-        nome = item.getI18NDisplayName();
-    }
-    const data = core.data("/legendarios/" + nome + "/");
-    data.loc = { x: location.getX(), y: location.getY(), z: location.getZ() };
-}
-function saveCoordsByPlayer(item, player) {
-    const p = player;
-    var nome = item;
-    if (!(typeof (item) == "string")) {
-        nome = item.getI18NDisplayName();
-    }
-    const data = core.data("/legendarios/" + nome + "/");
-    data.loc = { pUserName: p.getName() };
-}
-const checkIfRare = (item) => {
-    if (item.getItemMeta()) {
-        if (item.getItemMeta().hasLore()) {
-            if (core.type("org.bukkit.ChatColor").stripColor(item.getItemMeta().getLore()[0]) == core.type("org.bukkit.ChatColor").stripColor(rare)) {
-                return true;
-            }
-        }
-    }
-    return false;
-};
-const convertToRare = (itemstack, lore) => {
-    itemstack;
-    const metaitemstack = itemstack.getItemMeta();
-    metaitemstack.setLore([rare, lore]);
-    itemstack.setItemMeta(metaitemstack);
-};
-let countdown = true;
 core.event('org.bukkit.event.inventory.InventoryClickEvent', (e) => {
     function tentativaBurlar(player) {
         if (countdown) {
@@ -146,7 +102,6 @@ core.event('org.bukkit.event.inventory.InventoryClickEvent', (e) => {
     }
     */
 });
-module.exports = { convertToRare, checkIfRare, saveCoords };
 core.event("org.bukkit.event.player.PlayerQuitEvent", (e) => {
     const inv = e.getPlayer().getInventory();
     const itens = inv.getContents();
@@ -171,3 +126,58 @@ core.event("org.bukkit.event.player.PlayerJoinEvent", (e) => {
         }
     }
 });
+function saveCoords(item, location) {
+    var nome = item;
+    if (!(typeof (item) == "string")) {
+        nome = item.getI18NDisplayName();
+    }
+    const data = core.data("/legendarios/" + nome + "/");
+    data.loc = { x: location.getX(), y: location.getY(), z: location.getZ() };
+}
+function saveCoordsByPlayer(item, player) {
+    const p = player;
+    var nome = item;
+    if (!(typeof (item) == "string")) {
+        nome = item.getI18NDisplayName();
+    }
+    const data = core.data("/legendarios/" + nome + "/");
+    data.loc = { pUserName: p.getName() };
+}
+const checkIfRare = (item) => {
+    if (item.getItemMeta()) {
+        if (item.getItemMeta().hasLore()) {
+            if (core.type("org.bukkit.ChatColor").stripColor(item.getItemMeta().getLore()[0]) == core.type("org.bukkit.ChatColor").stripColor(rare)) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+const convertToRare = (itemstack, lore) => {
+    lore.unshift(rare);
+    itemstack;
+    const metaitemstack = itemstack.getItemMeta();
+    metaitemstack.setLore(lore);
+    itemstack.setItemMeta(metaitemstack);
+};
+const spawnItem = (item, player) => {
+    player.sendMessage((item.getType() + " foi spawnado."));
+    //stolen lmao https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+    let bloco = player.getWorld().getBlockAt(getRandomInt(spawnarea.p1x, spawnarea.p2x), 3, getRandomInt(spawnarea.p1z, spawnarea.p2z));
+    while (bloco.getType() != MATERIAL.AIR) {
+        const loc = bloco.getLocation();
+        bloco = bloco.getWorld().getBlockAt(loc.getX(), loc.getY() + 1, loc.getZ());
+    }
+    bloco.setType(MATERIAL.CHEST);
+    const chest = bloco.getState();
+    const i = chest.getBlockInventory();
+    i.setItem(13, item);
+    saveCoords(item, bloco.getLocation());
+};
+let countdown = true;
+module.exports = { convertToRare, checkIfRare, saveCoords, spawnItem };
