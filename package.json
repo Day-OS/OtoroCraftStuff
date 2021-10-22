@@ -1,0 +1,16 @@
+{
+   "devDependencies": {
+      "@grakkit/stdlib": "1.0.3",
+      "@types/node": "^16.11.1",
+      "typescript": "4.3.5"
+   },
+   "scripts": {
+      "build": "tsc --watch"
+   },
+   "dependencies": {
+      "@brayjamin/codify": "^1.0.3",
+      "@grakkit/js": "^1.0.2",
+      "@grakkit/server": "^1.4.2",
+      "@grakkit/stdlib-paper": "^1.0.14"
+   }
+}

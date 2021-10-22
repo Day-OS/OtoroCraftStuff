@@ -1,0 +1,12 @@
+{
+   "compilerOptions": {
+      "experimentalDecorators": true,
+      "lib": [ "ESNext" ],
+      "module": "CommonJS",
+      "outDir": "",
+      "rootDir": "./src",
+      "skipLibCheck": true,
+      "target": "ES2020",
+      
+   }
+}
