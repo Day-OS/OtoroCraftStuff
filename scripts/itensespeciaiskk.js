@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const rare = (core.type("org.bukkit.ChatColor").translateAlternateColorCodes("&", "&6&ka&r&l&fMeM&8-&r&o&7Legendários♔&6&ka"));
 const locationClass = core.type('org.bukkit.Location');
 const MATERIAL = core.type("org.bukkit.Material");
-const spawnarea = { p1x: -8, p1z: -8, p2x: 24, p2z: 24 };
+//const spawnarea={p1x:-8,p1z:-8,p2x:24,p2z:24}
+const spawnarea = { p1x: -4000, p1z: -4000, p2x: 4000, p2z: 4000 };
 core.event("org.bukkit.event.server.PluginDisableEvent", () => {
     const p = server.getOnlinePlayers();
     for (let i = 0; i < p['length']; i++) {

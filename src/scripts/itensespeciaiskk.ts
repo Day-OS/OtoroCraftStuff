@@ -2,7 +2,7 @@ const rare = (core.type("org.bukkit.ChatColor").translateAlternateColorCodes("&"
 const locationClass = core.type('org.bukkit.Location')
 const MATERIAL = core.type("org.bukkit.Material")
 //const spawnarea={p1x:-8,p1z:-8,p2x:24,p2z:24}
-const spawnarea={p1x:-4096,p1z:-2048,p2x:4095,p2z:2047}
+const spawnarea={p1x:-4000,p1z:-4000,p2x:4000,p2z:4000}
 import { obePlayer, obbChest, obiItemStack} from '@grakkit/server-classes';
 core.event("org.bukkit.event.server.PluginDisableEvent", ()=>{
     const p = server.getOnlinePlayers()

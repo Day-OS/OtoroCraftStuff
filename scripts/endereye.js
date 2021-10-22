@@ -9,10 +9,14 @@ const MATERIAL = core.type("org.bukkit.Material");
 const item = new itemStack(MATERIAL.ENDER_EYE);
 const NamespacedKey = core.type("org.bukkit.NamespacedKey");
 item.setAmount(8);
-const receita = new shapelessRecipe(new NamespacedKey("poo", "ender_eye"), item);
-receita.addIngredient(1, new itemStack(MATERIAL.ENDER_PEARL));
-receita.addIngredient(1, new itemStack(MATERIAL.BLAZE_POWDER));
-server.addRecipe(receita);
+try {
+    const receita = new shapelessRecipe(new NamespacedKey("poo", "ender_eye"), item);
+    receita.addIngredient(1, new itemStack(MATERIAL.ENDER_PEARL));
+    receita.addIngredient(1, new itemStack(MATERIAL.BLAZE_POWDER));
+    server.addRecipe(receita);
+}
+catch (error) {
+}
 core.event("org.bukkit.event.entity.EntitySpawnEvent", (evt) => {
     if (evt.getEntity()['name'] == "Eye of Ender" && evt.getEntity().getType().name() == "ENDER_SIGNAL") {
         if (data.loc.x && data.loc.z) {
