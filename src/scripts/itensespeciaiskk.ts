@@ -7,6 +7,32 @@ const itemClass = core.type("org.bukkit.inventory.ItemStack")
 const materialClass = core.type("org.bukkit.Material")
 const codify = require("@brayjamin/codify");
 import { obePlayer, obiEquipmentSlot } from '@grakkit/server-classes';
+core.event("org.bukkit.event.server.PluginDisableEvent", (evt)=>{
+    const p = server.getOnlinePlayers()
+    for (let i = 0; i < p['length']; i++) {
+        const player: obePlayer = p[i];
+        const lista = player.getInventory().getContents()
+        for (let z = 0; z < lista.length; z++) {
+            const item = lista[z];
+            if(item) if(checkIfRare(item)) player.getWorld().dropItemNaturally(player.getLocation(),item);
+        }
+        console.log(p);
+        
+    }
+})
+core.event("org.bukkit.event.server.PluginEnableEvent", (evt)=>{
+    const p = server.getOnlinePlayers()
+    for (let i = 0; i < p['length']; i++) {
+        const player: obePlayer = p[i];
+        const lista = player.getInventory().getContents()
+        for (let z = 0; z < lista.length; z++) {
+            const item = lista[z];
+            if(item) if(checkIfRare(item)) player.getInventory().removeItem(item)
+        }
+        console.log(p);
+        
+    }
+})
 core.event("org.bukkit.event.entity.ItemDespawnEvent",(evt)=>{if(checkIfRare(evt.getEntity()['getItemStack']())){evt.setCancelled(true);}})
 core.event('org.bukkit.event.entity.EntityDamageEvent',(evt)=>{ 
     const position = evt.getEntity().getLocation()

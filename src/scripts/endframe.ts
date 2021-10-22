@@ -43,8 +43,8 @@ core.event("org.bukkit.event.player.PlayerInteractEvent", (evt)=>{
         evt.setCancelled(true)
         const block = evt.getClickedBlock()
         if (evt.getPlayer().getInventory().getItemInMainHand().getType().name() == "AIR") {
-            for (let X = -1; X < 3; X++) {
-                for (let Z = -1; Z < 3; Z++) {
+            for (let X = -1; X < 2; X++) {
+                for (let Z = -1; Z < 2; Z++) {
                     const blocki = block.getWorld().getBlockAt(block.getLocation().getX() + X, block.getLocation().getY(), block.getLocation().getZ() + Z)
                     blocki.setType(MATERIAL.AIR)
                     evt.getPlayer().getInventory().setItemInMainHand(endframefoda)
