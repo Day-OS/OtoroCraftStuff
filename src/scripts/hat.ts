@@ -4,7 +4,7 @@ core.event('org.bukkit.event.inventory.InventoryClickEvent', (event) => {
     const inventory = event.getWhoClicked().getInventory()
     const selectedItem = event.getCursor()
     const helmet = inventory.getHelmet()
-    if (event.getSlot() == 39) {
+    if (event.getSlot() == 39 && event.getInventory().getType().name() == "CRAFTING") {
         const a : any = event
         a.setCursor(helmet)
         event.setCancelled(true)
